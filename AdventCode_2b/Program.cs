@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace AdventCode_2a
 {
@@ -10,45 +11,48 @@ namespace AdventCode_2a
         static void Main(string[] args)
         {
             string[] boxIds = File.ReadAllLines(@"input.txt");
-            int twoCharacterIds = 0;
-            int threeCharacterIds = 0;
+            List<string> closeMatches = new List<string>();
+            StringBuilder matchedCharacters = new StringBuilder();
+            int nonMatchingCharacterIndex = -1;
 
             foreach (var boxId in boxIds)
             {
-                var characterCount = new Dictionary<char, int>();
-                bool hasTwoRepeatCharacters = false;
-                bool hasThreeRepeatCharacters = false;
-                Debug.WriteLine(boxId);
-                foreach (var c in boxId.Trim())
+                foreach (var innerBoxId in boxIds)
                 {
-                    if (characterCount.ContainsKey(c))
-                        characterCount[c]++;
-                    else
-                        characterCount[c] = 1;
-                }
+                    int matchingCharacterCount = 0;
+                    
+                    if (innerBoxId != boxId)
+                    {
+                        for (int i = 0; i < innerBoxId.Length; i++)
+                        {
+                            if (innerBoxId[i] == boxId[i])
+                            {
+                                matchingCharacterCount++;
+                            }
+                        }
 
-                
-                foreach (var pair in characterCount)
-                {
-                    Debug.WriteLine("{0} - {1}", pair.Key, pair.Value);
-                    if (pair.Value == 2 && hasTwoRepeatCharacters == false)
-                    {
-                        twoCharacterIds++;
-                        hasTwoRepeatCharacters = true;
+                        
                     }
-                    if (pair.Value == 3 && hasThreeRepeatCharacters == false)
+
+                    if (matchingCharacterCount == boxId.Length - 1)
                     {
-                        threeCharacterIds++;
-                        hasThreeRepeatCharacters = true;
+                        Console.WriteLine(innerBoxId);
+                        closeMatches.Add(innerBoxId);
                     }
                 }
             }
 
-            Debug.WriteLine("Two Character Ids {0}", twoCharacterIds);
-            Debug.WriteLine("Three Character Ids {0}", threeCharacterIds);
 
-            Console.Write("Checksum is {0}", twoCharacterIds * threeCharacterIds);
+            for (int i = 0; i < closeMatches[0].Length; i++)
+            {
+                if (closeMatches[0][i] != closeMatches[1][i])
+                    nonMatchingCharacterIndex = i;
+            }
 
+            var characterCount = new Dictionary<char, int>();
+
+            Console.WriteLine(closeMatches[0].Remove(nonMatchingCharacterIndex, 1).Insert(nonMatchingCharacterIndex, " "));
+            
             Console.ReadKey();
         }
     }
