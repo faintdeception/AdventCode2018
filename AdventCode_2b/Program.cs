@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace AdventCode_2a
-{
-    class Program
-    {
+namespace AdventCode_2a {
+    class Program {
         static void Main(string[] args)
         {
             string[] boxIds = File.ReadAllLines(@"input.txt");
@@ -20,7 +17,7 @@ namespace AdventCode_2a
                 foreach (var innerBoxId in boxIds)
                 {
                     int matchingCharacterCount = 0;
-                    
+
                     if (innerBoxId != boxId)
                     {
                         for (int i = 0; i < innerBoxId.Length; i++)
@@ -31,7 +28,7 @@ namespace AdventCode_2a
                             }
                         }
 
-                        
+
                     }
 
                     if (matchingCharacterCount == boxId.Length - 1)
@@ -42,17 +39,18 @@ namespace AdventCode_2a
                 }
             }
 
-
-            for (int i = 0; i < closeMatches[0].Length; i++)
+            if (closeMatches.Count > 1)
             {
-                if (closeMatches[0][i] != closeMatches[1][i])
-                    nonMatchingCharacterIndex = i;
+                for (int i = 0; i < closeMatches[0].Length; i++)
+                {
+                    if (closeMatches[0][i] != closeMatches[1][i])
+                        nonMatchingCharacterIndex = i;
+                }
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(closeMatches[0].Remove(nonMatchingCharacterIndex, 1).Insert(nonMatchingCharacterIndex, " "));
             }
 
-            var characterCount = new Dictionary<char, int>();
-
-            Console.WriteLine(closeMatches[0].Remove(nonMatchingCharacterIndex, 1).Insert(nonMatchingCharacterIndex, " "));
-            
             Console.ReadKey();
         }
     }
