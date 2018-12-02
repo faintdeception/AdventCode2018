@@ -12,13 +12,14 @@ namespace AdventCode_2a
             string[] boxIds = File.ReadAllLines(@"input.txt");
             int twoCharacterIds = 0;
             int threeCharacterIds = 0;
+            var startTime = DateTime.Now;
+            var endTime = DateTime.Now;
 
             foreach (var boxId in boxIds)
             {
                 var characterCount = new Dictionary<char, int>();
                 bool hasTwoRepeatCharacters = false;
                 bool hasThreeRepeatCharacters = false;
-                Debug.WriteLine(boxId);
                 foreach (var c in boxId.Trim())
                 {
                     if (characterCount.ContainsKey(c))
@@ -30,7 +31,6 @@ namespace AdventCode_2a
                 
                 foreach (var pair in characterCount)
                 {
-                    Debug.WriteLine("{0} - {1}", pair.Key, pair.Value);
                     if (pair.Value == 2 && hasTwoRepeatCharacters == false)
                     {
                         twoCharacterIds++;
@@ -43,12 +43,10 @@ namespace AdventCode_2a
                     }
                 }
             }
+            endTime = DateTime.Now;
 
-            Debug.WriteLine("Two Character Ids {0}", twoCharacterIds);
-            Debug.WriteLine("Three Character Ids {0}", threeCharacterIds);
-
-            Console.Write("Checksum is {0}", twoCharacterIds * threeCharacterIds);
-
+            Console.WriteLine("Checksum is {0}{1}", twoCharacterIds * threeCharacterIds, Environment.NewLine);
+            Console.WriteLine(endTime - startTime);
             Console.ReadKey();
         }
     }

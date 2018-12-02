@@ -15,6 +15,9 @@ namespace AdventCode_1
 
             string[] frequencyDeltas = File.ReadAllLines(@"input.txt");
 
+            var starTime = DateTime.Now;
+            var endTime = DateTime.Now;
+
             while (foundDuplicateFrequency == false)
             {
                 foreach (string inputDelta in frequencyDeltas)
@@ -42,7 +45,10 @@ namespace AdventCode_1
                     }
                 }
             }
-            
+
+            endTime = DateTime.Now;
+            Console.WriteLine(endTime - starTime);
+
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
         }

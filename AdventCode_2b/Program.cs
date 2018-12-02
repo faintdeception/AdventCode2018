@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace AdventCode_2a {
     class Program {
         static void Main(string[] args)
         {
             string[] boxIds = File.ReadAllLines(@"input.txt");
+            var startTime = DateTime.Now;
+            var endTime = DateTime.Now;
             List<string> closeMatches = new List<string>();
             StringBuilder matchedCharacters = new StringBuilder();
             int nonMatchingCharacterIndex = -1;
@@ -47,10 +50,13 @@ namespace AdventCode_2a {
                         nonMatchingCharacterIndex = i;
                 }
 
+                endTime = DateTime.Now;
+
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(closeMatches[0].Remove(nonMatchingCharacterIndex, 1).Insert(nonMatchingCharacterIndex, " "));
             }
 
+            Console.WriteLine(endTime - startTime);
             Console.ReadKey();
         }
     }
